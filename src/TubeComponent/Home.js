@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import youtube from "../apis/youtube";
 import VideoShow from "./VideoShow";
 import VideoCols from "./VideoCols";
+import axios from "axios";
 
+const KEY = "AIzaSyCSqzcJQyFOFFJshA0nQjpQ";
 const Home = () => {
 
   const [videos, setVideos] = useState([]);
@@ -14,8 +15,12 @@ const Home = () => {
 
   const handleSubmit = async (searchText) => {
 
-    const response = await youtube.get("/search", {
+    const response = await axios.get("https://www.googleapis.com/youtube/v3/search/", {
       params: {
+        part: "snippet",
+        type: "video",
+        maxResults: 5,
+        key: KEY,
         q: searchText
       }
     });
@@ -41,7 +46,7 @@ const Home = () => {
           onChange={(e) => setSearch(e.target.value)}
           value={searchText}
           className="form-control" type="text"
-          placeholder="Search for videos"
+          placeholder="Search for the videos"
         />
       </form>
       <div className="row">
